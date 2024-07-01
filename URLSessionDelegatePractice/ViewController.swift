@@ -103,12 +103,14 @@ private extension ViewController {
 extension ViewController: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse) async -> URLSession.ResponseDisposition {
         if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) {
-            guard let contentLengthString = response.value(forHTTPHeaderField: "Content-Lengt"), let contentLength = Double(contentLengthString) else {
+            guard let contentLengthString = response.value(forHTTPHeaderField: "Content-Length"), let contentLength = Double(contentLengthString) else {
+                nasaImageView.image = UIImage(systemName: "star")
                 return .cancel
             }
             total = contentLength
             return .allow
         } else {
+            nasaImageView.image = UIImage(systemName: "star")
             return .cancel
         }
     }
@@ -118,7 +120,7 @@ extension ViewController: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: (any Error)?) {
         if error != nil {
             progressLabel.text = "문제가 발생했습니다."
-            
+            nasaImageView.image = UIImage(systemName: "star")
         } else {
             guard let buffer else {
                 print("buffer nil")
