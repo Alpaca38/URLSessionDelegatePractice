@@ -96,6 +96,7 @@ private extension ViewController {
     
     @objc func requestButtonTapped() {
         buffer = Data()
+        requestButton.isEnabled = false
         callRequest()
     }
 }
@@ -129,5 +130,6 @@ extension ViewController: URLSessionDataDelegate {
             let image = UIImage(data: buffer)
             nasaImageView.image = image
         }
+        requestButton.isEnabled = true
     }
 }
